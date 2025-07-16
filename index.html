@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spesifikasi Sukan Lokasi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    .filters label {
+      font-weight: bold;
+    }
+    select {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      min-width: 200px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #f8f9fa;
+      position: sticky;
+      top: 0;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #e9ecef;
+    }
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      select {
+        width: 100%;
+      }
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+    .loading {
+      color: #666;
+      font-style: italic;
+    }
+    .error {
+      color: #d9534f;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    <h1>Spesifikasi Sukan Lokasi</h1>
+    
+    <div class="filters">
+        <div>
+            <label for="sportSelect">Jenis Sukan:</label>
+            <select id="sportSelect" onchange="filterData()">
+                <option value="">-- Semua Sukan --</option>
+            </select>
+        </div>
+        <div>
+            <label for="locationSelect">Lokasi:</label>
+            <select id="locationSelect" onchange="filterData()">
+                <option value="">-- Semua Lokasi --</option>
+            </select>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sukan</th>
+                <th>Lokasi</th>
+                <th>Saiz</th>
+                <th>Jenis Permukaan</th>
+                <th>Intensiti Kecerahan</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody">
+            <tr>
+                <td colspan="5" class="loading">Memuatkan data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        let originalData = [];
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_KiFUNZ1CMPsFly9y_2rHQgQ9SWCvpoIhcfWQR2qlBcmeDZUnY9YnxhVBiYG5iw/pubhtml';
+
+        async function loadData() {
+            try {
+                // Gunakan proxy CORS alternatif jika perlu
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const response = await fetch(proxyUrl + encodeURIComponent(SHEET_URL));
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const html = await response.text();
+                
+                // Parse HTML table
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const table = doc.querySelector('table');
+                
+                if (!table) {
+                    throw new Error('Tabel tidak ditemukan dalam respons');
+                }
+                
+                // Convert table to JSON
+                const rows = Array.from(table.querySelectorAll('tr'));
+                
+                if (rows.length === 0) {
+                    throw new Error('Tabel tidak memiliki baris data');
+                }
+                
+                // Ambil header dari baris pertama
+                const headers = Array.from(rows[0].querySelectorAll('th, td')).map(cell => 
+                    cell.textContent.trim()
+                );
+                
+                // Pastikan kita memiliki header yang benar
+                if (headers.length === 0) {
+                    throw new Error('Header kolom tidak ditemukan');
+                }
+                
+                originalData = rows.slice(1).map(row => {
+                    const cells = Array.from(row.querySelectorAll('td'));
+                    const obj = {};
+                    headers.forEach((header, index) => {
+                        obj[header] = cells[index] ? cells[index].textContent.trim() : '';
+                    });
+                    return obj;
+                });
+                
+                populateDropdowns(originalData);
+                displayData(originalData);
+            } catch (error) {
+                showError('Gagal memuat data: ' + error.message);
+                console.error('Error details:', error);
+            }
+        }
+
+         function populateDropdowns(data) {
+      const sportSelect = document.getElementById("sportSelect");
+      const locationSelect = document.getElementById("locationSelect");
+
+      // Clear existing options (keeping the first default option)
+      sportSelect.innerHTML = '<option value="">-- Semua Sukan --</option>';
+      locationSelect.innerHTML = '<option value="">-- Semua Lokasi --</option>';
+
+      // Get unique values, filter out empty/null, and sort
+      const sports = [...new Set(data.map(d => d.Sukan).filter(Boolean))].sort();
+      const locations = [...new Set(data.map(d => d.Lokasi).filter(Boolean))].sort();
+
+      // Add options to dropdowns
+      sports.forEach(sport => {
+        sportSelect.innerHTML += `<option value="${sport}">${sport}</option>`;
+      });
+
+      locations.forEach(location => {
+        locationSelect.innerHTML += `<option value="${location}">${location}</option>`;
+      });
+    }
+
+    function filterData() {
+      const selectedSport = document.getElementById("sportSelect").value;
+      const selectedLocation = document.getElementById("locationSelect").value;
+
+      const filtered = originalData.filter(row => {
+        const sportMatch = !selectedSport || row.Sukan === selectedSport;
+        const locationMatch = !selectedLocation || row.Lokasi === selectedLocation;
+        return sportMatch && locationMatch;
+      });
+
+      displayData(filtered);
+    }
+
+    function displayData(data) {
+      const body = document.getElementById("dataBody");
+      
+      if (!data || data.length === 0) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="5">Tiada data ditemui untuk penapisan yang dipilih.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      body.innerHTML = data.map(row => `
+        <tr>
+          <td>${row.Sukan || '-'}</td>
+          <td>${row.Lokasi || '-'}</td>
+          <td>${row.Saiz || '-'}</td>
+          <td>${row["Jenis Permukaan"] || '-'}</td>
+          <td>${row["Intensiti Kecerahan"] || '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function showError(message) {
+      document.getElementById('dataBody').innerHTML = `
+        <tr>
+          <td colspan="5" class="error">${message}</td>
+        </tr>
+      `;
+      console.error(message);
+    }
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
