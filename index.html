@@ -818,6 +818,7 @@ function displaySpecs() {
   const spec = sportData[sport][venue];
   let html = '<h3>Spesifikasi</h3><div class="responsive-table"><table>';
   html += `<tr><td>Saiz (L x W x H)</td><td>${formatValue(spec.saiz)}</td></tr>`;
+  html += `<tr><td>Anggaran luas</td><td>${formatValue(spec.luas)}</td></tr>`;
   html += `<tr><td>Jenis Permukaan</td><td>${formatValue(spec.permukaan)}</td></tr>`;
   html += `<tr><td>Intensiti Kecerahan</td><td>${formatValue(spec.cahaya)}</td></tr>`;
   html += '</table></div>';
