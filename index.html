@@ -2,19 +2,122 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <title>Spesifikasi Gelanggang dan Padang</title>
+  <title>Kalkulator & Spesifikasi Stadium</title>
   <style>
-    body { font-family: Arial; padding: 20px; max-width: 900px; margin: auto; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    select { width: 300px; padding: 5px; }
-    #output { margin-top: 20px; }
-    .hidden { display: none; }
-    table { border-collapse: collapse; margin-top: 10px; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f0f0f0; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      max-width: 400px;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 1em;
+    }
+    select:disabled {
+      background-color: #f5f5f5;
+      color: #888;
+      cursor: not-allowed;
+    }
+    button {
+      padding: 6px 12px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #f0f0f0;
+    }
+    .responsive-table {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+      min-width: 300px;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+      word-wrap: break-word;
+    }
+    th:first-child, td:first-child {
+      width: 35%;
+    }
+    th:last-child, td:last-child {
+      width: 65%;
+    }
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      th, td { font-size: 0.95em; padding: 6px; }
+      th:first-child, td:first-child { width: 40%; }
+      th:last-child, td:last-child { width: 60%; }
+    }
   </style>
 </head>
 <body>
+
+<h2>Jenis Kemudahan Sukan</h2>
+
+<label for="kemudahanSelect">Pilih Kemudahan:</label>
+<select id="kemudahanSelect" onchange="paparSkopKemudahan()">
+  <option value="">-- Sila Pilih --</option>
+</select>
+
+<div id="skopKemudahan" style="margin-top: 10px; font-style: italic; color: #333;"></div>
+<hr style="margin: 30px 0;">
+
+
+<h2>Kalkulator Keluasan Lantai Stadium</h2>
+
+<label for="stadiumType">Jenis Stadium:</label>
+<select id="stadiumType" onchange="updateOptions(); kiraLuas();">
+  <option value="">-- Sila Pilih --</option>
+  <option value="terbuka">Stadium Terbuka</option>
+  <option value="separuh">Stadium Separuh Terbuka/Tertutup</option>
+</select>
+
+<label for="seatArea">Piawaian Ruang Duduk (m²/penonton):</label>
+<select id="seatArea" onchange="kiraLuas()"></select>
+
+<label for="supportArea">Piawaian Ruang Sokongan (m²/tempat duduk):</label>
+<select id="supportArea" onchange="kiraLuas()"></select>
+
+<label for="jumlahPenonton">Jumlah Penonton / Tempat Duduk:</label>
+<input type="number" id="jumlahPenonton" placeholder="Contoh: 5000" min="1" oninput="kiraLuas()" />
+
+<!-- Butang Jumlah Pantas dan Reset Jumlah -->
+<div style="margin-top: 10px;">
+  <label>Pilih Jumlah Pantas:</label>
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px;">
+    <button type="button" onclick="isiJumlah(100)">100</button>
+    <button type="button" onclick="isiJumlah(300)">300</button>
+    <button type="button" onclick="isiJumlah(500)">500</button>
+    <button type="button" onclick="isiJumlah(800)">800</button>
+    <button type="button" onclick="isiJumlah(1000)">1000</button>
+    <button type="button" onclick="isiJumlah(1500)">1500</button>
+    <button type="button" onclick="isiJumlah(2000)">2000</button>
+    <button type="button" onclick="resetJumlah()">Reset Jumlah</button>
+  </div>
+</div>
+
+<div id="hasilKira" style="margin-top: 15px;"></div>
+
+<hr style="margin: 30px 0;">
 
 <h2>Spesifikasi Gelanggang & Padang</h2>
 
@@ -28,11 +131,14 @@
   <option value="">-- Sila Pilih --</option>
 </select>
 
-<div id="output"></div>
+<button onclick="resetForm()">Reset Pilihan</button>
+
+<div id="output" style="margin-top: 20px;">
+  <p>Sila pilih jenis sukan dan lokasi/tahap untuk melihat spesifikasi gelanggang.</p>
+</div>
 
 <script>
-// DATA SUKAN
-const data = {
+const sportData = {
   "Angkat Berat": {
     "Rekreasi": {
       "saiz": "N/A",
@@ -673,23 +779,14 @@ const data = {
   },
 };
 
-// Populate dropdown sukan
-const sportSelect = document.getElementById('sportSelect');
-const venueSelect = document.getElementById('venueSelect');
-const venueLabel = document.getElementById('venueLabel');
-const outputDiv = document.getElementById('output');
-
-for (let sport in data) {
-  const option = document.createElement('option');
-  option.value = sport;
-  option.textContent = sport;
-  sportSelect.appendChild(option);
-}
-
 function updateVenueOptions() {
-  const selectedSport = sportSelect.value;
+  const selectedSport = document.getElementById('sportSelect').value;
+  const venueSelect = document.getElementById('venueSelect');
+  const outputDiv = document.getElementById('output');
+  const venueLabel = document.getElementById('venueLabel');
+
   venueSelect.innerHTML = '<option value="">-- Sila Pilih --</option>';
-  outputDiv.innerHTML = '';
+  outputDiv.innerHTML = '<p>Sila pilih lokasi/tahap untuk melihat spesifikasi.</p>';
 
   if (!selectedSport) {
     venueSelect.classList.add('hidden');
@@ -697,7 +794,7 @@ function updateVenueOptions() {
     return;
   }
 
-  const venues = Object.keys(data[selectedSport]);
+  const venues = Object.keys(sportData[selectedSport]);
   venues.forEach(venue => {
     const option = document.createElement('option');
     option.value = venue;
@@ -709,22 +806,164 @@ function updateVenueOptions() {
   venueLabel.classList.remove('hidden');
 }
 
-function displaySpecs() {
-  const sport = sportSelect.value;
-  const venue = venueSelect.value;
+function formatValue(val) {
+  return val === 'N/A' ? 'Maklumat tidak tersedia' : val;
+}
 
+function displaySpecs() {
+  const sport = document.getElementById('sportSelect').value;
+  const venue = document.getElementById('venueSelect').value;
   if (!sport || !venue) return;
 
-  const spec = data[sport][venue];
-  let html = '<h3>Spesifikasi</h3><table>';
-
-  if (spec.saiz && spec.saiz !== 'N/A') html += `<tr><td>Saiz (L x W x H)</td><td>${spec.saiz}</td></tr>`;
-  if (spec.permukaan && spec.permukaan !== 'N/A') html += `<tr><td>Jenis Permukaan</td><td>${spec.permukaan}</td></tr>`;
-  if (spec.cahaya && spec.cahaya !== 'N/A') html += `<tr><td>Intensiti Kecerahan</td><td>${spec.cahaya}</td></tr>`;
-
-  html += '</table>';
-  outputDiv.innerHTML = html;
+  const spec = sportData[sport][venue];
+  let html = '<h3>Spesifikasi</h3><div class="responsive-table"><table>';
+  html += `<tr><td>Saiz (L x W x H)</td><td>${formatValue(spec.saiz)}</td></tr>`;
+  html += `<tr><td>Jenis Permukaan</td><td>${formatValue(spec.permukaan)}</td></tr>`;
+  html += `<tr><td>Intensiti Kecerahan</td><td>${formatValue(spec.cahaya)}</td></tr>`;
+  html += '</table></div>';
+  document.getElementById('output').innerHTML = html;
 }
+
+function resetForm() {
+  // Reset hanya bahagian Spesifikasi Gelanggang & Padang
+  document.getElementById("sportSelect").value = '';
+  const venueSelect = document.getElementById("venueSelect");
+  const venueLabel = document.getElementById("venueLabel");
+  const outputDiv = document.getElementById("output");
+
+  venueSelect.innerHTML = '<option value="">-- Sila Pilih --</option>';
+  venueSelect.classList.add('hidden');
+  venueLabel.classList.add('hidden');
+  outputDiv.innerHTML = '<p>Sila pilih jenis sukan dan lokasi/tahap untuk melihat spesifikasi gelanggang.</p>';
+}
+
+
+function updateOptions() {
+  const stadiumType = document.getElementById("stadiumType").value;
+  const seatArea = document.getElementById("seatArea");
+  const supportArea = document.getElementById("supportArea");
+
+  seatArea.innerHTML = '';
+  supportArea.innerHTML = '';
+
+  if (stadiumType === "terbuka") {
+    seatArea.innerHTML = `<option value="0.6">0.6</option>`;
+    supportArea.innerHTML = `<option value="0.45">0.45</option>`;
+    seatArea.disabled = true;
+    supportArea.disabled = true;
+  } else if (stadiumType === "separuh") {
+    seatArea.disabled = false;
+    supportArea.disabled = false;
+    ["0.5", "0.6", "0.7", "0.8"].forEach(val => {
+      seatArea.innerHTML += `<option value="${val}">${val}</option>`;
+    });
+    for (let i = 0.45; i <= 0.75; i += 0.05) {
+      supportArea.innerHTML += `<option value="${i.toFixed(2)}">${i.toFixed(2)}</option>`;
+    }
+  }
+}
+
+function kiraLuas() {
+  const jenis = document.getElementById("stadiumType").value;
+  let jumlah = Number(document.getElementById("jumlahPenonton").value);
+
+  // Elakkan nilai negatif
+  if (jumlah < 0) {
+    jumlah = 0;
+    document.getElementById("jumlahPenonton").value = 0;
+  }
+
+  const seatArea = parseFloat(document.getElementById("seatArea")?.value);
+  const supportArea = parseFloat(document.getElementById("supportArea")?.value);
+  const hasil = document.getElementById("hasilKira");
+
+  let seatType = "";
+  if (jenis === "terbuka") {
+    seatType = "Teres konkrit / PVC / propylene";
+  } else if (jenis === "separuh") {
+    seatType = "1) Teres konkrit/PVC/propylene  2) Bucket PVC/upholstered tetap/lipat  3) Bleacher (manual/auto)  4) Retractable";
+  }
+
+  if (!jenis || isNaN(jumlah) || jumlah < 1 || !seatArea || !supportArea) {
+    hasil.innerHTML = "<p style='color:red;'>Sila lengkapkan semua pilihan dan pastikan jumlah penonton lebih daripada 0.</p>";
+    return;
+  }
+
+  const ruangDuduk = (jumlah * seatArea).toFixed(2);
+  const ruangSokongan = (jumlah * supportArea).toFixed(2);
+
+  hasil.innerHTML = `
+    <p><strong>Jenis Tempat Duduk:</strong> ${seatType}</p>
+    <p><strong>Anggaran Keluasan:</strong></p>
+    <ul>
+      <li><strong>Ruang Duduk:</strong> ${ruangDuduk} m² (${seatArea} m²/penonton)</li>
+      <li><strong>Ruang Sokongan:</strong> ${ruangSokongan} m² (${supportArea} m²/tempat duduk)</li>
+    </ul>
+  `;
+}
+
+
+function isiJumlah(jumlah) {
+  document.getElementById("jumlahPenonton").value = jumlah;
+  kiraLuas();
+}
+
+function resetJumlah() {
+  document.getElementById("jumlahPenonton").value = '';
+  document.getElementById("hasilKira").innerHTML = '';
+}
+
+function initSports() {
+  const sportSelect = document.getElementById('sportSelect');
+  for (let sport in sportData) {
+    const option = document.createElement('option');
+    option.value = sport;
+    option.textContent = sport;
+    sportSelect.appendChild(option);
+  }
+}
+
+window.addEventListener("DOMContentLoaded", function () {
+  initSports();
+});
+
+const kemudahanData = {
+  "Gelanggang Luar": "Mempunyai beberapa jenis gelanggang di luar bangunan. Ia dilaksanakan di peringkat sekolah rendah dan menengah harian, sekolah menengah berasrama penuh, sekolah sukan, pusat latihan, institut, politeknik dan universiti.",
+  "Stadium Mini": "Mengandungi padang bola sepak dan astaka untuk penonton. Ia dilaksanakan di peringkat daerah dengan kapasiti sehingga 500 penonton.",
+  "Stadium Terbuka": "Mengandungi trek olahraga, padang bola sepak dan astaka untuk penonton. Ia dilaksanakan di peringkat negeri dan persekutuan dengan kapasiti sehingga 40,000 penonton.",
+  "Stadium Tertutup": "Sebuah dewan yang mempunyai beberapa jenis gelanggang dan tempat duduk penonton. Ia dilaksanakan di peringkat negeri dan persekutuan dengan kapasiti sehingga 5,000 penonton.",
+  "Kompleks Sukan Mini": "Mengandungi dewan serba guna, padang bola sepak, astaka untuk penonton dan gelanggang luar. Dilaksanakan di peringkat pusat latihan, institut, politeknik, universiti, maktab dan daerah (pusat komuniti).",
+  "Kompleks Sukan": "Mengandungi Stadium Tertutup, Stadium Terbuka dan/atau Kolam Renang. Dilaksanakan di peringkat negeri dan persekutuan.",
+  "Kolam Renang": "Mengandungi sebuah kolam utama dan kolam terjun. Dilaksanakan di peringkat sekolah sukan, universiti sukan, negeri dan persekutuan."
+};
+
+function initKemudahan() {
+  const kemudahanSelect = document.getElementById("kemudahanSelect");
+  for (let nama in kemudahanData) {
+    const opt = document.createElement("option");
+    opt.value = nama;
+    opt.textContent = nama;
+    kemudahanSelect.appendChild(opt);
+  }
+}
+
+function paparSkopKemudahan() {
+  const pilihan = document.getElementById("kemudahanSelect").value;
+  const output = document.getElementById("skopKemudahan");
+  if (pilihan && kemudahanData[pilihan]) {
+    output.innerText = kemudahanData[pilihan];
+  } else {
+    output.innerText = "";
+  }
+}
+window.addEventListener("DOMContentLoaded", function () {
+  initSports();
+  initKemudahan(); // tambahkan ini
+});
+
+
+
+
 </script>
 
 </body>
