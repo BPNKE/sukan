@@ -139,46 +139,54 @@
 
 <script>
 const sportData = {
-  "Angkat Berat": {
+"Angkat Berat": {
     "Rekreasi": {
       "saiz": "N/A",
       "permukaan": "N/A",
+      "luas": "N/A",
       "cahaya": "N/A",
     },
     "Daerah": {
       "saiz": "N/A",
       "permukaan": "N/A",
+      "luas": "N/A",
       "cahaya": "N/A",
     },
     "Pusat Latihan": {
       "saiz": "Ukuran Dewan: 21.0 x 13.0 m  (8 platform) Ukuran platform: 4.0 x 4.0 x 1.5 m Tinggi platform: 1.5 m Zon bebas: 1.0 m",
+      "luas": "345.0 // (21 + 2) × (13 + 2) × 1",
       "permukaan": "Kayu plywood dan getah keras",
       "cahaya": "500 - 1000 lux",
     },
     "Kebangsaan": {
       "saiz": "Ukuran platform: 4.0 x 4.0 x 1.5 m. Tinggi platform: 1.5 m Zon bebas: 1.0 m Kebangsaan/Antarabangsa Bilangan platform: 1 + 8 (Warm-up)",
+      "luas": "324.0 // (4 + 2) × (4 + 2) × 9",
       "permukaan": "Kayu plywood dan getah keras",
       "cahaya": "1000 - 1500 lux",
     },
   },
-  "Badminton": {
+    "Badminton": {
     "Rekreasi": {
       "saiz": "Gelanggang tertutup: 13.4 x 6.1 x 7.0 m Keseluruhan gelanggang:  15.4 x 8.1 x 7.6 m  Zon bebas: 2.0 m daripada garisan",
+      "luas": "175.7 // (13.4 + 4) × (6.1 + 4) × 1",
       "permukaan": "Di dalam: Lepaan simen dan  Acrylic Floor (Matt Surface) pada bahagian gelanggang Di luar: lepaan simen dengan Acrylic Floor",
       "cahaya": "300 - 500 lux",
     },
     "Daerah": {
       "saiz": "Gelanggang tertutup: 13.4 x 6.1 x 9.0 m. Keseluruhan gelanggang:  15.4 x 8.1 x 7.6 m  Zon bebas: 2.0 m daripada garisan",
+      "luas": "175.7 // (13.4 + 4) × (6.1 + 4) × 1",
       "permukaan": "Di dalam: Sports Flooring *  Di luar: lepaan simen dengan Acrylic Floor",
       "cahaya": "300 - 500 lux",
     },
     "Pusat Latihan": {
       "saiz": "Gelanggang tertutup: 13.4 x 6.1 x 9.0 m Zon bebas: 2.0 m daripada garisan Minimum: 30 gelanggang",
+      "luas": "5272.2 // (13.4 + 4) × (6.1 + 4) × 30",
       "permukaan": "Di dalam: Rubberized Mat/Sports Flooring *",
       "cahaya": "300 - 500 lux",
     },
     "Kebangsaan": {
       "saiz": "Gelanggang Tertutup: 13.4 x 6.1 x 9.0 m Zon bebas: 3.0 – 5.0 m daripada garisan Kebangsaan/Antarabangsa Minimum: 5 gelanggang",
+      "luas": "1508.7 // (13.4 + 8) × (6.1 + 8) × 5",
       "permukaan": "Di dalam: Rubberized Mat/ Sports Flooring *",
       "cahaya": "1000 -1500 lux",
     },
@@ -186,21 +194,25 @@ const sportData = {
   "Bola Jaring": {
     "Rekreasi": {
       "saiz": "Gelanggang Luar:  30.5 x 15.25 m Keseluruhan gelanggang:  36.6 x 21.35 m Jarak zon bebas keliling gelanggang: 3.05 m",
+      "luas": "781.4 // (30.5 + 6.1) × (15.25 + 6.1) × 1",
       "permukaan": "Lepaan simen dengan kemasan Acrylic",
       "cahaya": "Dalam dewan: 750 -1000 lux",
     },
     "Daerah": {
       "saiz": "Gelanggang Tertutup:  30.5 x 15.25 m Keseluruhan gelanggang:  36.6 x 21.35 m Jarak zon bebas keliling gelanggang: 3.05 m",
+      "luas": "781.4 // (30.5 + 6.1) × (15.25 + 6.1) × 1",
       "permukaan": "Di dalam: Sports Flooring * Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "Dalam dewan: 750 -1000 lux",
     },
     "Pusat Latihan": {
       "saiz": "Gelanggang Tertutup:  30.5 x 15.25 m Keseluruhan gelanggang:  36.6 x 21.35 x 8.3 m Jarak zon bebas keliling gelanggang: 3.05 m",
+      "luas": "781.4 // (30.5 + 6.1) × (15.25 + 6.1) × 1",
       "permukaan": "Di dalam: Sports Flooring * Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "Dalam dewan: 750 -1000 lux",
     },
     "Kebangsaan": {
       "saiz": "Gelanggang Tertutup:  30.5 x 15.25 m Keseluruhan gelanggang:  36.6 x 21.35 x 8.3 m Jarak zon bebas keliling gelanggang: 3.05 m  Kebangsaan/Antarabangsa Minimum : 2 gelanggang",
+      "luas": "1562.8 // (30.5 + 6.1) × (15.25 + 6.1) × 2",
       "permukaan": "Di dalam: Sports Flooring *",
       "cahaya": "Dalam dewan: 750 -1000 lux",
     },
@@ -208,153 +220,182 @@ const sportData = {
   "Bola Keranjang": {
     "Rekreasi": {
       "saiz": "Gelanggang Luar: 28.0 x 15.0 m Keseluruhan gelanggang: 28 x 15.0 m",
+      "luas": "420.0 // (28 + 0) × (15 + 0) × 1",
       "permukaan": "Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "200 – 500 lux",
     },
     "Daerah": {
       "saiz": "Gelanggang Tertutup:  28.0 x 15.0 x 7.0 m Keseluruhan gelanggang:  28 x 15.0 m",
+      "luas": "420.0 // (28 + 0) × (15 + 0) × 1",
       "permukaan": "Di dalam: Sports Flooring * Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "500 – 1000 lux",
     },
     "Pusat Latihan": {
       "saiz": "Gelanggang Tertutup:  28.0 x 15.0 x 7.0 m",
+      "luas": "420.0 // (28 + 0) × (15 + 0) × 1",
       "permukaan": "Di dalam: Sports Flooring * Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "500 – 1000 lux",
     },
     "Kebangsaan": {
       "saiz": "Gelanggang Tertutup: 28.0 x 15.0 x 7.0 m Jarak zon bebas: 2.0 m Jarak antara penonton dengan garisan zon bebas: 5.0 m Kebangsaan/Antarabangsa Minimum: 2 gelanggang",
+      "luas": "2436.0 // (28 + 14) × (15 + 14) × 2",
       "permukaan": "Di dalam: Sports Flooring*",
       "cahaya": "1500 lux",
+
     },
   },
   "Bola Tampar": {
     "Rekreasi": {
       "saiz": "Gelanggang Luar: 18.0 x 9.0 m Zon bebas: 3.0 m sekeliling",
+      "luas": "360.0 // (18 + 6) × (9 + 6) × 1",
       "permukaan": "Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "200 – 500 lux",
     },
     "Daerah": {
       "saiz": "Gelanggang Tertutup: 18.0 x 9.0 m Zon bebas: 3.0 m sekeliling",
+      "luas": "360.0 // (18 + 6) × (9 + 6) × 1",
       "permukaan": "Di dalam: Sports Flooring * Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "500 – 1000 lux",
     },
     "Pusat Latihan": {
       "saiz": "Gelanggang Tertutup: 18.0 x 9.0 m Zon bebas: 3.0 m sekeliling",
+      "luas": "360.0 // (18 + 6) × (9 + 6) × 1",
       "permukaan": "Di dalam: Sports Flooring *  Di luar: lepaan simen dengan kemasan Acrylic",
       "cahaya": "500 – 1000 lux",
     },
     "Kebangsaan": {
       "saiz": "Gelanggang Tertutup: 18.0 x 9.0 m Zon bebas: 8.0 m. jarak garisan belakang dari dinding dan 5.0 m jarak garisan tepi dari dinding. Kebangsaan/Antarabangsa 2 gelanggang",
+      "luas": "700.0 // (18 + 10) × (9 + 16) × 1",
       "permukaan": "Di dalam: Sports Flooring *",
       "cahaya": "1000 – 1500 lux",
     },
   },
-  "Bola Sepak": {
-    "Rekreasi": {
-      "saiz": "Bawah 12 Tahun  Asas ukuran saiz padang: 54.86 x 73.15 m (minimum) 64.01 x 82.0 m (maksimum)",
-      "permukaan": "Axonopus Compressus (Rumput Biasa)",
-      "cahaya": "N/A",
-    },
-    "Daerah": {
-      "saiz": "Asas ukuran padang: 105.0 x 68.0 m Keseluruhan padang termasuk zon bebas: 115.0 x 78.0 m  Maksimum (tidak termasuk zon  bebas): 120m x 90m Minimum (tidak termasuk zon bebas): 90m x 45m",
-      "permukaan": "Axonopus Compressus (Rumput Biasa)",
-      "cahaya": "1500 – 2000 lux",
-    },
-    "Pusat Latihan": {
-      "saiz": "Asas ukuran padang: 105.0 x 68.0 m. Keseluruhan padang termasuk zon bebas: 115.0 x 78.0 m  Maksimum (tidak termasuk zon bebas): 120m x 90m Minimum (tidak termasuk zon bebas): 90m x 45m",
-      "permukaan": "Axonopus Compressus (Rumput Biasa)",
-      "cahaya": "1500 – 2000 lux",
-    },
-    "Kebangsaan": {
-      "saiz": "Asas ukuran padang: 105.0 x 68.0 m. Keseluruhan padang termasuk zon bebas: 115.0 x 78.0 m  Maksimum (tidak termasuk zon bebas): 120m x 90m Minimum (tidak termasuk zon bebas): 90m x 45m",
-      "permukaan": "Axonopus Compressus (Rumput Biasa)/Bermuda Grass",
-      "cahaya": "1500 – 2000 lux",
+ "Bola Sepak": {
+  "Rekreasi": {
+    "saiz": "Bawah 12 Tahun  Asas ukuran saiz padang: 54.86 x 73.15 m (minimum) 64.01 x 82.0 m (maksimum)",
+    "luas": "4010.4 – 7414.2 (avg: 5712.3) // min: (54.86 + 0) × (73.15 + 0) × 1, max: (64.01 + 0) × (82 + 0) × 1",
+    "permukaan": "Axonopus Compressus (Rumput Biasa)",
+    "cahaya": "N/A",
+  },
+  "Daerah": {
+    "saiz": "Asas ukuran padang: 105.0 x 68.0 m Keseluruhan padang termasuk zon bebas: 115.0 x 78.0 m  Maksimum (tidak termasuk zon  bebas): 120m x 90m Minimum (tidak termasuk zon bebas): 90m x 45m",
+    "luas": "4050.0 – 10800.0 (avg: 7425.0) // min: (90 + 0) × (45 + 0) × 1, max: (120 + 0) × (90 + 0) × 1",
+    "permukaan": "Axonopus Compressus (Rumput Biasa)",
+    "cahaya": "1500 – 2000 lux",
+  },
+  "Pusat Latihan": {
+    "saiz": "Asas ukuran padang: 105.0 x 68.0 m. Keseluruhan padang termasuk zon bebas: 115.0 x 78.0 m  Maksimum (tidak termasuk zon bebas): 120m x 90m Minimum (tidak termasuk zon bebas): 90m x 45m",
+    "luas": "4050.0 – 10800.0 (avg: 7425.0) // min: (90 + 0) × (45 + 0) × 1, max: (120 + 0) × (90 + 0) × 1",
+    "permukaan": "Axonopus Compressus (Rumput Biasa)",
+    "cahaya": "1500 – 2000 lux",
+  },
+  "Kebangsaan": {
+    "saiz": "Asas ukuran padang: 105.0 x 68.0 m. Keseluruhan padang termasuk zon bebas: 115.0 x 78.0 m  Maksimum (tidak termasuk zon bebas): 120m x 90m Minimum (tidak termasuk zon bebas): 90m x 45m",
+    "luas": "4050.0 – 10800.0 (avg: 7425.0) // min: (90 + 0) × (45 + 0) × 1, max: (120 + 0) × (90 + 0) × 1",
+    "permukaan": "Axonopus Compressus (Rumput Biasa)/Bermuda Grass",
+    "cahaya": "1500 – 2000 lux",
+
     },
   },
-  "Boling Padang": {
-    "Rekreasi": {
-      "saiz": "N/A",
-      "permukaan": "N/A",
-      "cahaya": "N/A",
-    },
-    "Daerah": {
-      "saiz": "Saiz Padang Segiempat Sama: 34.0 x 34.0 m Ruang Balingan (Rink) - 6 bilangan",
-      "permukaan": "Axonopus Compressus (Rumput Biasa)",
-      "cahaya": "300 - 500 lux",
-    },
-    "Pusat Latihan": {
-      "saiz": "Saiz Padang Segiempat Sama: 34.0 x 34.0 m Ruang Balingan (Rink) - 6 bilangan",
-      "permukaan": "Rumput Sintetik",
-      "cahaya": "1500 - 2000 lux",
-    },
-    "Kebangsaan": {
-      "saiz": "Saiz Padang Segiempat Sama: 34.0 x 34.0 m Ruang Balingan (Rink) - 6 bilangan Kebangsaan Minimum: 2 gelanggang Antarabangsa Minimum: 4 gelanggang",
-      "permukaan": "Rumput Sintetik",
-      "cahaya": "1200 lux",
+ "Boling Padang": {
+  "Rekreasi": {
+    "saiz": "N/A",
+    "permukaan": "N/A",
+    "cahaya": "N/A"
+  },
+  "Daerah": {
+    "saiz": "Saiz Padang Segiempat Sama: 34.0 x 34.0 m Ruang Balingan (Rink) - 6 bilangan",
+    "luas": "1156.0 // (34 + 0) × (34 + 0) × 1",
+    "permukaan": "Axonopus Compressus (Rumput Biasa)",
+    "cahaya": "300 - 500 lux"
+  },
+  "Pusat Latihan": {
+    "saiz": "Saiz Padang Segiempat Sama: 34.0 x 34.0 m Ruang Balingan (Rink) - 6 bilangan",
+    "luas": "1156.0 // (34 + 0) × (34 + 0) × 1",
+    "permukaan": "Rumput Sintetik",
+    "cahaya": "1500 - 2000 lux"
+  },
+  "Kebangsaan": {
+    "saiz": "Saiz Padang Segiempat Sama: 34.0 x 34.0 m Ruang Balingan (Rink) - 6 bilangan Kebangsaan Minimum: 2 gelanggang Antarabangsa Minimum: 4 gelanggang",
+    "luas": "4624.0 // (34 + 0) × (34 + 0) × 4",
+    "permukaan": "Rumput Sintetik",
+    "cahaya": "1200 lux"
     },
   },
-  "Futsal": {
-    "Rekreasi": {
-      "saiz": "Asas ukuran gelanggang: 25.0 x 15.0 m (minimum) 42.0 x 25.0 m (maksimum) Zon Bebas: 2.0 - 3.0 m",
-      "permukaan": "Di Luar: Lepaan simen dengan Kemasan Acrylic",
-      "cahaya": "300 – 500 lux",
-    },
-    "Daerah": {
-      "saiz": "Asas ukuran gelanggang: 25.0 x 15.0 m (minimum) 42.0 x 25.0 m (maksimum) Zon Bebas: 2.0 - 3.0 m",
-      "permukaan": "Di Dalam: Sports Flooring* Lapisan Sintetik Di Luar: Lepaan simen dengan Kemasan Acrylic",
-      "cahaya": "300 – 500 lux",
-    },
-    "Pusat Latihan": {
-      "saiz": "Asas ukuran gelanggang: 25.0 x 16.0 m (minimum) 42.0 x 25.0 m (maksimum) Zon Bebas: 2.0 - 3.0 m",
-      "permukaan": "Di dalam: Lapisan Sintetik  Di Luar: Lepaan simen dengan Kemasan Acrylic",
-      "cahaya": "300 – 500 lux",
-    },
-    "Kebangsaan": {
-      "saiz": "Asas ukuran gelanggang: 38.0 x 20.0 m (minimum) 42.0 x 25.0 m (maksimum)  Zon Bebas: 2.0 - 3.0 m Kebangsaan/Antarabangsa Minimum: 2 gelanggang",
-      "permukaan": "Di dalam: Lapisan Sintetik",
-      "cahaya": "1000 – 1500 lux",
+ "Futsal": {
+  "Rekreasi": {
+    "saiz": "Asas ukuran gelanggang: 25.0 x 15.0 m (minimum) 42.0 x 25.0 m (maksimum) Zon Bebas: 2.0 - 3.0 m",
+    "luas": "918.8 – 1762.5 (avg: 1340.6) // min: (25 + 5) × (15 + 5) × 1, max: (42 + 5) × (25 + 5) × 1",
+    "permukaan": "Di Luar: Lepaan simen dengan Kemasan Acrylic",
+    "cahaya": "300 – 500 lux"
+  },
+  "Daerah": {
+    "saiz": "Asas ukuran gelanggang: 25.0 x 15.0 m (minimum) 42.0 x 25.0 m (maksimum) Zon Bebas: 2.0 - 3.0 m",
+    "luas": "918.8 – 1762.5 (avg: 1340.6) // min: (25 + 5) × (15 + 5) × 1, max: (42 + 5) × (25 + 5) × 1",
+    "permukaan": "Di Dalam: Sports Flooring* Lapisan Sintetik Di Luar: Lepaan simen dengan Kemasan Acrylic",
+    "cahaya": "300 – 500 lux"
+  },
+  "Pusat Latihan": {
+    "saiz": "Asas ukuran gelanggang: 25.0 x 16.0 m (minimum) 42.0 x 25.0 m (maksimum) Zon Bebas: 2.0 - 3.0 m",
+    "luas": "957.5 – 1762.5 (avg: 1360.0) // min: (25 + 5) × (16 + 5) × 1, max: (42 + 5) × (25 + 5) × 1",
+    "permukaan": "Di dalam: Lapisan Sintetik  Di Luar: Lepaan simen dengan Kemasan Acrylic",
+    "cahaya": "300 – 500 lux"
+  },
+  "Kebangsaan": {
+    "saiz": "Asas ukuran gelanggang: 38.0 x 20.0 m (minimum) 42.0 x 25.0 m (maksimum)  Zon Bebas: 2.0 - 3.0 m Kebangsaan/Antarabangsa Minimum: 2 gelanggang",
+    "luas": "3037.5 – 5280.0 (avg: 4158.8) // min: (38 + 5) × (20 + 5) × 2, max: (42 + 5) × (25 + 5) × 2",
+    "permukaan": "Di dalam: Lapisan Sintetik",
+    "cahaya": "1000 – 1500 lux"
     },
   },
   "Gimnastik": {
-    "Rekreasi": {
-      "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 25.0 x 50.0 m",
-      "permukaan": "Simen",
-      "cahaya": "500 lux",
-    },
-    "Daerah": {
-      "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 25.0 x 50.0 m",
-      "permukaan": "Simen",
-      "cahaya": "500 lux",
-    },
-    "Pusat Latihan": {
-      "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 25.0 x 50.0 m",
-      "permukaan": "Simen",
-      "cahaya": "500-1000 lux",
-    },
-    "Kebangsaan": {
-      "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 36.0 x 90.0 m Jarak antara gelanggang dengan penonton: 4.0 m",
-      "permukaan": "Lantai Sintetik",
-      "cahaya": "1500 lux",
+  "Rekreasi": {
+    "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 25.0 x 50.0 m",
+    "luas": "1250.0 // (25 + 0) × (50 + 0) × 1",
+    "permukaan": "Simen",
+    "cahaya": "500 lux"
+  },
+  "Daerah": {
+    "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 25.0 x 50.0 m",
+    "luas": "1250.0 // (25 + 0) × (50 + 0) × 1",
+    "permukaan": "Simen",
+    "cahaya": "500 lux"
+  },
+  "Pusat Latihan": {
+    "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 25.0 x 50.0 m",
+    "luas": "1250.0 // (25 + 0) × (50 + 0) × 1",
+    "permukaan": "Simen",
+    "cahaya": "500-1000 lux"
+  },
+  "Kebangsaan": {
+    "saiz": "Dewan Gimnastik Artistik dan Gimrama Ukuran Dewan: 36.0 x 90.0 m Jarak antara gelanggang dengan penonton: 4.0 m",
+    "luas": "4312.0 // (36 + 8) × (90 + 8) × 1",
+    "permukaan": "Lantai Sintetik",
+    "cahaya": "1500 lux"
     },
   },
   "Hoki": {
     "Rekreasi": {
       "saiz": "Saiz Asas Padang: 91.4 x 55.0 m",
+      "luas": "5027.0 // (91.4 + 0) × (55 + 0) × 1",
       "permukaan": "Axonopus Compressus (Rumput Biasa)",
       "cahaya": "200 - 500 lux",
     },
     "Daerah": {
       "saiz": "Saiz Asas Padang: 91.4 x 55.0 m",
+      "luas": "5027.0 // (91.4 + 0) × (55 + 0) × 1",
       "permukaan": "Rumput Sintetik",
       "cahaya": "200 - 500 lux",
     },
     "Pusat Latihan": {
       "saiz": "Saiz Asas Padang: 91.4 x 55.0 m",
+      "luas": "5027.0 // (91.4 + 0) × (55 + 0) × 1",
       "permukaan": "Rumput Sintetik",
       "cahaya": "1000 - 2000 lux",
     },
     "Kebangsaan": {
       "saiz": "Saiz Asas Padang: 91.4 x 55.0 m Kebangsaan/Antarabangsa Minimum : 2 gelanggang",
+      "luas": "10054.0 // (91.4 + 0) × (55 + 0) × 2",
       "permukaan": "Rumput Sintetik",
       "cahaya": "2000 lux",
     },
@@ -362,45 +403,54 @@ const sportData = {
   "Judo": {
     "Rekreasi": {
       "saiz": "Saiz Gelanggang: 8.0 -10.0 x 8.0 - 10.0 m Zon bebas: 3.0 m (minimum)",
+      "luas": "224.0 // (10 + 6) × (8 + 6) × 1",
       "permukaan": "Tatami Matt",
       "cahaya": "200 - 500 lux",
     },
     "Daerah": {
       "saiz": "Saiz Gelanggang: 8.0 -10.0 x 8.0 - 10.0 m Zon bebas: 3.0 m (minimum)",
+      "luas": "224.0 // (10 + 6) × (8 + 6) × 1",
       "permukaan": "Tatami Matt",
       "cahaya": "200 - 500 lux",
     },
     "Pusat Latihan": {
       "saiz": "Saiz Gelanggang: 8.0 -10.0 x 8.0 - 10.0 m Zon bebas: 3.0 m (minimum)",
+      "luas": "224.0 // (10 + 6) × (8 + 6) × 1",
       "permukaan": "Tatami Matt",
       "cahaya": "1000 lux",
     },
-    "Kebangsaan": {
-      "saiz": "Saiz Gelanggang: 8.0 -10.0 x 8.0 - 10.0 m Zon bebas: 3.0 m (minimum) Dewan Kejohanan:  Keseluruhan gelanggang:  14.0 - 16.0 x 14.0 - 16.0 m Jarak antara gelanggang: 4.0 m",
-      "permukaan": "Tatami Matt",
-      "cahaya": "1500 - 1800 lux",
+  "Kebangsaan": {
+    "saiz": "Saiz Gelanggang: 8.0 - 10.0 x 8.0 - 10.0 m Zon bebas: 3.0 m (minimum) Dewan Kejohanan: Keseluruhan gelanggang: 14.0 - 16.0 x 14.0 - 16.0 m Jarak antara gelanggang: 4.0 m",
+    "luas": "256.0 // (10 + 6) × (10 + 6) × 1 [gelanggang + zon bebas] | 320.0 // (16 + 4) × (16 + 0) × 1 [dewan kejohanan + jarak antara gelanggang]",
+    "permukaan": "Tatami Matt",
+    "cahaya": "1500 - 1800 lux"
     },
   },
   "Karate": {
     "Rekreasi": {
       "saiz": "Kumite Saiz Asas Gelanggang: 6.0 x 6.0 m. (kawasan permainan) Zon Bebas : 1.0 m Kata Saiz Asas Gelanggang: 6.0 x 6.0 m. (kawasan permainan) Zon Bebas: 1.0 m",
+      "luas": "64.0 // (6 + 2) × (6 + 2) × 1",
       "permukaan": "XPE Mattress (Non-WKF Approved)",
       "cahaya": "200 – 500 lux",
     },
     "Daerah": {
       "saiz": "Kumite Saiz Asas Gelanggang: 8.0 x 8.0 m Zon bebas : 2.0 m  Kata Saiz Asas Gelanggang: 8.0 x 8.0 m Zon bebas: 2.0 m",
+      "luas": "144.0 // (8 + 4) × (8 + 4) × 1",
       "permukaan": "XPE Mattress (Non-WKF Approved)",
       "cahaya": "200 – 500 lux",
     },
     "Pusat Latihan": {
       "saiz": "Kumite Saiz Asas Gelanggang: 8.0 x 8.0 m Zon bebas: 2.0 m Minimum: 2 karpet  Kata Saiz Asas Gelanggang: 8.0 x 8.0 m Zon bebas: 2.0 m",
+      "luas": "288.0 // (8 + 4) × (8 + 4) × 2",
       "permukaan": "XPE Mattress(Non-WKF Approved)",
       "cahaya": "200 – 500 lux",
     },
     "Kebangsaan": {
       "saiz": "Kumite Saiz Gelanggang: 12.0 x 12.0 m. (termasuk 2.0 m zon bebas) Kebangsaan/Antarabangsa Minimum: 2 karpet Kata Saiz Gelanggang: 12.0 x 12.0 m (termasuk 2.0 m. zon bebas)",
+      "luas": "288.0 // (12 + 0) × (12 + 0) × 2",
       "permukaan": "XPE Mattress (WKF Approved )",
       "cahaya": "1000 – 1500 lux",
+
     },
   },
   "Lawan Pedang": {
@@ -818,7 +868,7 @@ function displaySpecs() {
   const spec = sportData[sport][venue];
   let html = '<h3>Spesifikasi</h3><div class="responsive-table"><table>';
   html += `<tr><td>Saiz (L x W x H)</td><td>${formatValue(spec.saiz)}</td></tr>`;
-  html += `<tr><td>Anggaran luas</td><td>${formatValue(spec.luas)}</td></tr>`;
+  html += `<tr><td>Anggaran Luas</td><td>${formatValue(spec.luas)}</td></tr>`;
   html += `<tr><td>Jenis Permukaan</td><td>${formatValue(spec.permukaan)}</td></tr>`;
   html += `<tr><td>Intensiti Kecerahan</td><td>${formatValue(spec.cahaya)}</td></tr>`;
   html += '</table></div>';
